@@ -1,0 +1,58 @@
+openapi: 3.1.0
+info:
+  title: Платформа заявок
+  version: 1.0.0
+  description: API для управления заявками
+paths:
+  /api/requests:
+    get:
+      summary: Получить список заявок
+      description: Возвращает список заявок с возможностью фильтрации.
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Фильтр по статусу заявки
+          schema:
+            type: string
+            enum:
+              - open
+              - in_progress
+              - closed
+        - name: created_since
+          in: query
+          required: false
+          description: Дата создания, начиная с которой искать
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          description: Максимальное количество результатов
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Список заявок
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Идентификатор заявки
+                  status:
+                    type: string
+                    description: Статус заявки
+                    enum:
+                      - open
+                      - closed
+                required:
+                  - id
+                  - status
+              example:
+                - id: 1
+                  status: open
+servers:
+  - url: https://api.example.com
